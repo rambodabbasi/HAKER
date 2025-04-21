@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>هک شده!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+    #overlay img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    #overlay h1 {
+      font-size: 3rem;
+      margin: 10px 0;
+    }
+    #exitBtn {
+      pointer-events: all;
+      background: red;
+      border: none;
+      padding: 15px 30px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: not-allowed;
+      margin-top: 20px;
+    }
+    /* انیمیشن لرزش برای کل صفحه */
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(-5px, -5px); }
+      60% { transform: translate(5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+      100% { transform: translate(0, 0); }
+    }
+    .shake {
+      animation: shake 0.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- بوم برای افکت ماتریکس -->
+  <canvas id="matrixCanvas"></canvas>
+  
+  <!-- لایه پوششی با تصویر، متن و دکمه خروج (تقلیدی) -->
+  <div id="overlay">
+    <img src="A_digital_illustration_in_the_hacker_genre_showcas.png" alt="هکر">
+    <h1>سیستم تحت کنترل هکرهاست!</h1>
+    <button id="exitBtn">خروج</button>
+  </div>
+  
+  <!-- عنصر صوت برای پخش ترسناک -->
+  <audio id="scarySound" loop>
+    <source src="scary.mp3" type="audio/mpeg">
+    مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+  </audio>
+  
+  <script>
+    // تنظیمات بوم ماتریکس
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const letters = "01";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // اگر به انتهای صفحه رسید، دوباره از بالا شروع کن
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 50);
+    
+    // فعالسازی افکت‌های ترسناک با اولین لمس صفحه (برای رفع محدودیت autoplay در مرورگر)
+    document.body.addEventListener('click', function initEffects() {
+      const scarySound = document.getElementById('scarySound');
+      scarySound.play().catch(err => { console.log("خطا در پخش صوت:", err); });
+      
+      // لرزش گوشی (اگر پشتیبانی بشه)
+      if (navigator.vibrate) {
+        navigator.vibrate([500, 200, 500, 200, 1000]);
+      }
+      
+      // اضافه کردن افکت لرزش به کل صفحه
+      document.body.classList.add('shake');
+      
+      // حذف کردن listener برای جلوگیری از چندباره فعال شدن
+      document.body.removeEventListener('click', initEffects);
+    });
+    
+    // دکمه خروج به صورت تقلیدی عمل می‌کند (غیرفعال)
+    document.getElementById('exitBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("خروج غیرفعال شده است!");
+    });
+    
+    // تنظیم مجدد اندازه بوم در زمان تغییر اندازه صفحه
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>هک شده!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      color: lime;
+      font-family: 'Courier New', monospace;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+    #overlay img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    #overlay h1 {
+      font-size: 3rem;
+      margin: 10px 0;
+    }
+    #exitBtn {
+      pointer-events: all;
+      background: red;
+      border: none;
+      padding: 15px 30px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: not-allowed;
+      margin-top: 20px;
+    }
+    /* انیمیشن لرزش برای کل صفحه */
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(-5px, -5px); }
+      60% { transform: translate(5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+      100% { transform: translate(0, 0); }
+    }
+    .shake {
+      animation: shake 0.5s infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- بوم برای افکت ماتریکس -->
+  <canvas id="matrixCanvas"></canvas>
+  
+  <!-- لایه پوششی با تصویر، متن و دکمه خروج (تقلیدی) -->
+  <div id="overlay">
+    <img src="A_digital_illustration_in_the_hacker_genre_showcas.png" alt="هکر">
+    <h1>سیستم تحت کنترل هکرهاست!</h1>
+    <button id="exitBtn">خروج</button>
+  </div>
+  
+  <!-- عنصر صوت برای پخش ترسناک -->
+  <audio id="scarySound" loop>
+    <source src="scary.mp3" type="audio/mpeg">
+    مرورگر شما از پخش صوت پشتیبانی نمی‌کند.
+  </audio>
+  
+  <script>
+    // تنظیمات بوم ماتریکس
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const letters = "01";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+      
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        // اگر به انتهای صفحه رسید، دوباره از بالا شروع کن
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 50);
+    
+    // فعالسازی افکت‌های ترسناک با اولین لمس صفحه (برای رفع محدودیت autoplay در مرورگر)
+    document.body.addEventListener('click', function initEffects() {
+      const scarySound = document.getElementById('scarySound');
+      scarySound.play().catch(err => { console.log("خطا در پخش صوت:", err); });
+      
+      // لرزش گوشی (اگر پشتیبانی بشه)
+      if (navigator.vibrate) {
+        navigator.vibrate([500, 200, 500, 200, 1000]);
+      }
+      
+      // اضافه کردن افکت لرزش به کل صفحه
+      document.body.classList.add('shake');
+      
+      // حذف کردن listener برای جلوگیری از چندباره فعال شدن
+      document.body.removeEventListener('click', initEffects);
+    });
+    
+    // دکمه خروج به صورت تقلیدی عمل می‌کند (غیرفعال)
+    document.getElementById('exitBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      alert("خروج غیرفعال شده است!");
+    });
+    
+    // تنظیم مجدد اندازه بوم در زمان تغییر اندازه صفحه
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html># HAKER
